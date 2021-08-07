@@ -37,17 +37,17 @@ vendor/bin/phpunit
 Under root directory (where you have the `docker-compose.yaml` file), run the command:
 
 ```
-docker-compose run composer install
+docker-compose run --rm composer install
 ```
 
 ### Run the Challenge script
 
 ```
-docker-compose run app
+docker-compose run --rm app
 ```
 
 ### Run tests
 
 ```
-docker-compose run tests
+docker-compose run --rm tests
 ```
