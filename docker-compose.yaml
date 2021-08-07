@@ -11,6 +11,10 @@ services:
     volumes:
       - ./src:/app
     working_dir: /app
+    command:
+      - /bin/bash
+      - -c
+      - php index.php
   tests:
     image: php:7.4-cli
     volumes:

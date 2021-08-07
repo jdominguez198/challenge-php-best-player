@@ -43,7 +43,7 @@ docker-compose run composer install
 ### Run the Challenge script
 
 ```
-docker-compose run app php index.php
+docker-compose run app
 ```
 
 ### Run tests
