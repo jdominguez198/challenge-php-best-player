@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ChallengeBestPlayer\Model\Games;
 
-use ChallengeBestPlayer\Model\AbstractGame;
+use ChallengeBestPlayer\Model\AbstractGamePlayer;
 
-class Valorant extends AbstractGame {
+class Valorant extends AbstractGamePlayer {
     public static array $keyProperties = [
         self::KEY_NAME,
         self::KEY_NICK_NAME,
@@ -14,6 +14,11 @@ class Valorant extends AbstractGame {
         self::KEY_KILLS,
         self::KEY_DEATHS,
     ];
+
+    public function getGame(): string
+    {
+        return 'VALORANT';
+    }
 
     public function getPoints(): float
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ChallengeBestPlayer\Model;
 
+use ChallengeBestPlayer\Api\GamePlayerInterface;
 use ChallengeBestPlayer\Model\Games\LeagueOfLegends;
 use ChallengeBestPlayer\Model\Games\Valorant;
 
@@ -16,13 +17,13 @@ class GamePlayerFactory {
     /**
      * @throws \Exception
      */
-    public function create(string $model, array $data = []): AbstractGame
+    public function create(string $model, array $data = []): GamePlayerInterface
     {
         if (!array_key_exists($model, $this->modelMappings)) {
             throw new \Exception(sprintf('Can\'t create Model. Game "%s" not found!', $model));
         }
 
-        /** @var AbstractGame $className */
+        /** @var GamePlayerInterface $className */
         $className = $this->modelMappings[$model];
         $classProperties = $className::$keyProperties;
 

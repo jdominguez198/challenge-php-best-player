@@ -6,7 +6,7 @@ namespace ChallengeBestPlayer\Model;
 
 use ChallengeBestPlayer\Api\GamePlayerInterface;
 
-abstract class AbstractGame implements GamePlayerInterface
+abstract class AbstractGamePlayer implements GamePlayerInterface
 {
     protected array $data;
 
@@ -22,6 +22,8 @@ abstract class AbstractGame implements GamePlayerInterface
             self::KEY_DEATHS => (int) $data[self::KEY_DEATHS] ?? 0,
         ];
     }
+
+    abstract public function getGame(): string;
 
     public function getName(): string
     {

@@ -11,6 +11,7 @@ interface GamePlayerInterface {
     const KEY_KILLS = 'kills';
     const KEY_DEATHS = 'deaths';
 
+    public function getGame(): string;
     public function getName(): string;
     public function getNickName(): string;
     public function getTeam(): string;

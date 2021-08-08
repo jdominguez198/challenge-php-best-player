@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ChallengeBestPlayer\Model\Games;
 
-use ChallengeBestPlayer\Model\AbstractGame;
+use ChallengeBestPlayer\Model\AbstractGamePlayer;
 
-class LeagueOfLegends extends AbstractGame {
+class LeagueOfLegends extends AbstractGamePlayer {
     const KEY_WINNER = 'winner';
     const KEY_POSITION = 'position';
     const KEY_ASSISTS = 'assists';
@@ -57,6 +57,11 @@ class LeagueOfLegends extends AbstractGame {
         $this->data[self::KEY_ASSISTS] = (int) $data[self::KEY_ASSISTS] ?? 0;
         $this->data[self::KEY_DAMAGE_DEAL] = (int) $data[self::KEY_DAMAGE_DEAL] ?? 0;
         $this->data[self::KEY_HEAL_DEAL] = (int) $data[self::KEY_HEAL_DEAL] ?? 0;
+    }
+
+    public function getGame(): string
+    {
+        return 'LEAGUE OF LEGENDS';
     }
 
     public function isWinner(): bool
