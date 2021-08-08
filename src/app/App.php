@@ -9,20 +9,28 @@ use ChallengeBestPlayer\Service\BestPlayerCalculator;
 use ChallengeBestPlayer\Service\DataSource;
 
 class App {
-    protected const ERROR_PROCESSING_FILES = 1001;
-    protected const ERROR_WRONG_FORMAT_FILES = 1002;
+    const ERROR_PROCESSING_FILES = 'Error processing files';
+    const ERROR_WRONG_FORMAT_FILES = 'Error wrong files format';
+    const ERROR_NO_PLAYERS = 'Error empty file sets';
 
     protected DataSource $dataSource;
     protected GamePlayerFactory $playerFactory;
     protected BestPlayerCalculator $bestPlayerCalculator;
 
-    public function __construct()
+    public function __construct(
+        DataSource $dataSource = null,
+        GamePlayerFactory $gamePlayerFactory = null,
+        BestPlayerCalculator $bestPlayerCalculator = null
+    )
     {
-        $this->dataSource = new DataSource();
-        $this->playerFactory = new GamePlayerFactory();
-        $this->bestPlayerCalculator = new BestPlayerCalculator();
+        $this->dataSource = $dataSource ?? new DataSource();
+        $this->playerFactory = $gamePlayerFactory ?? new GamePlayerFactory();
+        $this->bestPlayerCalculator = $bestPlayerCalculator ?? new BestPlayerCalculator();
     }
 
+    /**
+     * @param array $options
+     */
     public function execute(array $options = []): void
     {
         echo sprintf('%sWelcome to Best e-Sports player Calculator!%s%s', PHP_EOL, PHP_EOL, PHP_EOL);
@@ -37,7 +45,11 @@ class App {
             ]);
         } catch (\Exception $e) {
             echo $e->getMessage();
-            exit(self::ERROR_PROCESSING_FILES);
+            throw new \RuntimeException(self::ERROR_PROCESSING_FILES);
+        }
+
+        if (count($fileSets) === 0) {
+            throw new \RuntimeException(self::ERROR_NO_PLAYERS);
         }
 
         $playerStats = $this->populatePlayerStats($fileSets);
@@ -45,7 +57,7 @@ class App {
         if (count($playerStats['errors']) > 0) {
             $this->printErrors($playerStats['errors']);
 
-            exit(self::ERROR_WRONG_FORMAT_FILES);
+            throw new \RuntimeException(self::ERROR_WRONG_FORMAT_FILES);
         }
 
         $this->printBestPlayer($playerStats['stats']);
@@ -53,6 +65,10 @@ class App {
         echo PHP_EOL;
     }
 
+    /**
+     * @param array $content
+     * @return array
+     */
     protected function populatePlayerStats(array $content): array
     {
         $errors = [];
@@ -85,6 +101,9 @@ class App {
         ];
     }
 
+    /**
+     * @param array $errors
+     */
     protected function printErrors(array $errors): void
     {
         echo sprintf(
@@ -114,6 +133,9 @@ class App {
         }
     }
 
+    /**
+     * @param array $playerStats
+     */
     protected function printBestPlayer(array $playerStats): void
     {
         echo sprintf('Best e-Sport Player:%s%s', PHP_EOL, PHP_EOL);

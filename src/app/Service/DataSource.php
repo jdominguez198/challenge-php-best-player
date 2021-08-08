@@ -9,6 +9,8 @@ class DataSource {
     const KEY_INPUT_FOLDER = 'inputFolder';
     const KEY_CSV_SEPARATOR = 'csvSeparator';
 
+    const ERROR_DIRECTORY_NOT_FOUND = 'Directory "%s" does not exists!';
+
     protected CsvImporter $csvImporter;
 
     protected array $options = [
@@ -17,9 +19,9 @@ class DataSource {
         self::KEY_CSV_SEPARATOR => ';',
     ];
 
-    public function __construct()
+    public function __construct(CsvImporter $csvImporter = null)
     {
-        $this->csvImporter = new CsvImporter();
+        $this->csvImporter = $csvImporter ?? new CsvImporter();
     }
 
     /**
@@ -62,7 +64,7 @@ class DataSource {
         $directoryPath = $this->getSourceDirectoryPath();
 
         if (!is_dir($directoryPath)) {
-            throw new \Exception(sprintf('Directory "%s" does not exists!', $directoryPath));
+            throw new \Exception(sprintf(self::ERROR_DIRECTORY_NOT_FOUND, $directoryPath));
         }
 
         return array_filter(scandir($directoryPath), function ($item) use ($directoryPath) {
