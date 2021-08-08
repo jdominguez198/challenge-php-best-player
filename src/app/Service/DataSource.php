@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace ChallengeBestPlayer\Service;
 
 class DataSource {
-    protected const KEY_SOURCE_DIRECTORY = 'sourceDirectory';
-    protected const KEY_INPUT_FOLDER = 'inputFolder';
-    protected const KEY_CSV_SEPARATOR = 'csvSeparator';
+    const KEY_SOURCE_DIRECTORY = 'sourceDirectory';
+    const KEY_INPUT_FOLDER = 'inputFolder';
+    const KEY_CSV_SEPARATOR = 'csvSeparator';
 
     protected CsvImporter $csvImporter;
 
@@ -38,7 +38,7 @@ class DataSource {
     protected function loadOptions(array $newOptions = []): void
     {
         foreach (array_keys($this->options) as $optionKey) {
-            $this->options[$optionKey] = $newOptions[self::KEY_SOURCE_DIRECTORY] ?? $this->options[$optionKey];
+            $this->options[$optionKey] = $newOptions[$optionKey] ?? $this->options[$optionKey];
         }
     }
 
