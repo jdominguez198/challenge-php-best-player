@@ -6,7 +6,7 @@ namespace ChallengeBestPlayer\Model;
 
 use ChallengeBestPlayer\Api\GamePlayerScoringInterface;
 
-class GamePlayerScoringScoring implements GamePlayerScoringInterface {
+class GamePlayerScoring implements GamePlayerScoringInterface {
     protected string $name;
     protected string $nickName;
     protected array $gamePoints = [];

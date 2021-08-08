@@ -6,7 +6,7 @@ namespace ChallengeBestPlayer\Service;
 
 use ChallengeBestPlayer\Api\GamePlayerScoringInterface;
 use ChallengeBestPlayer\Api\GamePlayerInterface;
-use ChallengeBestPlayer\Model\GamePlayerScoringScoring;
+use ChallengeBestPlayer\Model\GamePlayerScoring;
 
 class BestPlayerCalculator {
     protected array $players = [];
@@ -23,7 +23,7 @@ class BestPlayerCalculator {
         foreach ($players as $player) {
             /** @var GamePlayerInterface $player */
             if (!array_key_exists($player->getNickName(), $this->players)) {
-                $bestPlayerModel = new GamePlayerScoringScoring();
+                $bestPlayerModel = new GamePlayerScoring();
 
                 $this->players[$player->getNickName()] = $bestPlayerModel
                     ->setName($player->getName())

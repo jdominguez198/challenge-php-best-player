@@ -7,6 +7,8 @@ namespace ChallengeBestPlayer\Model\Games;
 use ChallengeBestPlayer\Model\AbstractGamePlayer;
 
 class Valorant extends AbstractGamePlayer {
+    const GAME_NAME = 'VALORANT';
+
     public static array $keyProperties = [
         self::KEY_NAME,
         self::KEY_NICK_NAME,
@@ -17,15 +19,11 @@ class Valorant extends AbstractGamePlayer {
 
     public function getGame(): string
     {
-        return 'VALORANT';
+        return self::GAME_NAME;
     }
 
     public function getPoints(): float
     {
-        if ($this->getDeaths() === 0) {
-            return 0.0;
-        }
-
-        return $this->getKills() / $this->getDeaths();
+        return $this->getDeaths() === 0 ? 0 : $this->getKills() / $this->getDeaths();
     }
 }

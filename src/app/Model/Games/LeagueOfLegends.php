@@ -7,6 +7,8 @@ namespace ChallengeBestPlayer\Model\Games;
 use ChallengeBestPlayer\Model\AbstractGamePlayer;
 
 class LeagueOfLegends extends AbstractGamePlayer {
+    const GAME_NAME = 'LEAGUE OF LEGENDS';
+
     const KEY_WINNER = 'winner';
     const KEY_POSITION = 'position';
     const KEY_ASSISTS = 'assists';
@@ -61,7 +63,7 @@ class LeagueOfLegends extends AbstractGamePlayer {
 
     public function getGame(): string
     {
-        return 'LEAGUE OF LEGENDS';
+        return self::GAME_NAME;
     }
 
     public function isWinner(): bool
@@ -109,11 +111,7 @@ class LeagueOfLegends extends AbstractGamePlayer {
 
     public function getPoints(): float
     {
-        if ($this->getDeaths() === 0) {
-            return 0.0;
-        }
-
-        $kdaPoints = ($this->getKills() + $this->getAssists()) / $this->getDeaths();
+        $kdaPoints = $this->getDeaths() === 0 ? 0 : ($this->getKills() + $this->getAssists()) / $this->getDeaths();
         $damagePoints = $this->getDamageDealCalculated();
         $healPoints = $this->getHealDealCalculated();
         $teamWinnerPoints = $this->isWinner() ? 10 : 0;
