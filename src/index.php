@@ -1,16 +1,27 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/app/Utils/PascalCaseString.php';
 
 use ChallengeBestPlayer\App;
 
-$options = [
-    'inputFolder' => 'challenge-csv-files',
-];
+function processParameters (array $parameters = []): array {
+    // Remove first argument, it's the script name
+    array_shift($parameters);
+    $options = [];
 
-if (isset($argv[1]) && !empty($argv[1])) {
-    $options['inputFolder'] = $argv[1];
+    foreach ($parameters as $parameter) {
+        [ $key, $value ] = explode('=', $parameter);
+        if ($value === '') {
+            continue;
+        }
+
+        $cleanKey = str_replace('--', '', trim($key));
+        $options[toPascalCase($cleanKey)] = $value;
+    }
+
+    return $options;
 }
 
 $app = new App();
-$app->execute($options);
+$app->execute(processParameters($argv));

@@ -12,11 +12,16 @@ services:
       - ./src:/app
     working_dir: /app
     environment:
+      - SOURCE_DIRECTORY=${SOURCE_DIRECTORY}
       - INPUT_FOLDER=${INPUT_FOLDER}
+      - CSV_SEPARATOR=${CSV_SEPARATOR}
     command:
       - /bin/bash
       - -c
-      - php index.php ${INPUT_FOLDER}
+      - php index.php \
+        --source_directory=${SOURCE_DIRECTORY} \
+        --input_folder=${INPUT_FOLDER} \
+        --csv_separator=${CSV_SEPARATOR}
   tests:
     image: php:7.4-cli
     volumes:
