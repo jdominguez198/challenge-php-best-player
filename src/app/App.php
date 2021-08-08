@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ChallengeBestPlayer;
 
-use ChallengeBestPlayer\Model\BestPlayer;
 use ChallengeBestPlayer\Model\GamePlayerFactory;
+use ChallengeBestPlayer\Service\BestPlayerCalculator;
 use ChallengeBestPlayer\Service\DataSource;
 
 class App {
@@ -14,13 +14,13 @@ class App {
 
     protected DataSource $dataSource;
     protected GamePlayerFactory $playerFactory;
-    protected BestPlayer $bestPlayer;
+    protected BestPlayerCalculator $bestPlayerCalculator;
 
     public function __construct()
     {
         $this->dataSource = new DataSource();
         $this->playerFactory = new GamePlayerFactory();
-        $this->bestPlayer = new BestPlayer();
+        $this->bestPlayerCalculator = new BestPlayerCalculator();
     }
 
     public function execute(array $options = []): void
@@ -40,7 +40,7 @@ class App {
             exit(self::ERROR_PROCESSING_FILES);
         }
 
-        $playerStats = $this->buildPlayerStats($fileSets);
+        $playerStats = $this->populatePlayerStats($fileSets);
 
         if (count($playerStats['errors']) > 0) {
             $this->printErrors($playerStats['errors']);
@@ -53,7 +53,7 @@ class App {
         echo PHP_EOL;
     }
 
-    protected function buildPlayerStats(array $content): array
+    protected function populatePlayerStats(array $content): array
     {
         $errors = [];
         $playerStats = [];
@@ -118,19 +118,19 @@ class App {
     {
         echo sprintf('Best e-Sport Player:%s%s', PHP_EOL, PHP_EOL);
 
-        $bestPlayer = $this->bestPlayer->execute($playerStats);
+        $bestPlayer = $this->bestPlayerCalculator->execute($playerStats);
         echo sprintf(
-            'Player "%s" from team "%s" is the WINNER with "%s" points:%s',
-            $bestPlayer['name'],
-            $bestPlayer['team'],
-            $bestPlayer['total'],
+            'Player "%s (%s)" is the WINNER with "%s" points:%s',
+            $bestPlayer->getName(),
+            $bestPlayer->getNickName(),
+            $bestPlayer->getTotalPoints(),
             PHP_EOL
         );
-        foreach ($bestPlayer['points'] as $game => $result) {
+        foreach ($bestPlayer->getGamePoints() as $game => $points) {
             echo sprintf(
                 '- Points in "%s": %s%s',
                 $game,
-                $result,
+                $points,
                 PHP_EOL
             );
         }
