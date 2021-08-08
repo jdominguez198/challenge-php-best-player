@@ -31,13 +31,13 @@ class GamePlayerFactory {
             throw new \Exception(sprintf('Required number of properties for "%s" are not matching', $model));
         }
 
-        $modelData = array_reduce($data, function($output, $item) use ($data, $classProperties) {
-            $index = array_search($item, $data);
-            $output[$classProperties[$index]] = $item;
+        $reduction = array_reduce($classProperties, function ($output, $item) use ($data) {
+            $output['data'][$item] = $data[$output['index']];
+            $output['index']++;
 
             return $output;
-        }, []);
+        }, [ 'data' => [], 'index' => 0 ]);
 
-        return new $className($modelData);
+        return new $className($reduction['data']);
     }
 }
