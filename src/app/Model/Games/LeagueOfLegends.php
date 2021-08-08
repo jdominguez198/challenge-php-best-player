@@ -6,7 +6,7 @@ namespace ChallengeBestPlayer\Model\Games;
 
 use ChallengeBestPlayer\Model\AbstractGame;
 
-class Valorant extends AbstractGame {
+class LeagueOfLegends extends AbstractGame {
     public function getPoints(): float
     {
         return 0.0;
