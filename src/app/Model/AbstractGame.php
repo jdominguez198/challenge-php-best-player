@@ -10,28 +10,42 @@ abstract class AbstractGame implements GamePlayerInterface
 {
     protected array $data;
 
+    public static array $keyProperties = [];
+
     public function __construct(array $data)
     {
         $this->data = [
-            'name' => $data['name'] ?? null,
-            'nickName' => $data['nickName'] ?? null,
-            'team' => $data['team'] ?? null,
+            self::KEY_NAME => (string) $data[self::KEY_NAME] ?? null,
+            self::KEY_NICK_NAME => (string) $data[self::KEY_NICK_NAME] ?? null,
+            self::KEY_TEAM => (string) $data[self::KEY_TEAM] ?? null,
+            self::KEY_KILLS => (int) $data[self::KEY_KILLS] ?? 0,
+            self::KEY_DEATHS => (int) $data[self::KEY_DEATHS] ?? 0,
         ];
     }
 
     public function getName(): string
     {
-        return $this->data['name'];
+        return $this->data[self::KEY_NAME];
     }
 
     public function getNickName(): string
     {
-        return $this->data['nickName'];
+        return $this->data[self::KEY_NICK_NAME];
     }
 
     public function getTeam(): string
     {
-        return $this->data['team'];
+        return $this->data[self::KEY_TEAM];
+    }
+
+    public function getKills(): int
+    {
+        return $this->data[self::KEY_KILLS];
+    }
+
+    public function getDeaths(): int
+    {
+        return $this->data[self::KEY_DEATHS];
     }
 
     abstract public function getPoints(): float;
